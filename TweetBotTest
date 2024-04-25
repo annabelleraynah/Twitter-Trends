@@ -1,0 +1,21 @@
+```java
+// This class, TweetBotTest serves as a testing class for TweetBot.
+
+import java.util.*;
+
+public class TweetBotTest {
+    public static void main(String[] args) {
+        List<String> tweets = new ArrayList<>();
+        tweets.add("A");
+        tweets.add("B");
+        tweets.add("C");
+        TweetBot bot = new TweetBot(tweets);
+        System.out.println(bot.nextTweet());  // A tweet about something controversial
+        System.out.println(bot.nextTweet());  // Remember to vote!
+        System.out.println(bot.nextTweet());  // Look at this meme :O
+        bot.addTweet("D");
+        System.out.println(bot.nextTweet());  // A tweet about something controversial
+
+    }
+}
+```
