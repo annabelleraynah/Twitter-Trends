@@ -1,0 +1,88 @@
+```java
+// This class, TwitterTrends is designed to perform analysis on tweets contained
+// in a TweetBot Object.
+
+import java.util.*;
+import java.io.*;
+
+public class TwitterTrends {
+    private TweetBot bot;
+
+    // This constructor initializes the TwitterTrends with the given 
+    // TweetBot for analysis.
+    // Parameters:
+    // - bot - a TweetBot object
+    public TwitterTrends(TweetBot bot) {
+        this.bot = bot;
+    }
+
+    // This method returns the most frequent word among all tweets in the
+    // TweetBot we are analyzing
+    // Returns:
+    // - String - the most frequent word
+    public String getMostFrequentWord() {
+        Map<String, Integer> wordCounts = new TreeMap<>();
+
+        // Go through all the tweets in the TweetBot
+        for (int i = 0; i < bot.numTweets(); i++) {
+            String tweet = bot.nextTweet().toLowerCase();
+            // Use scanner to break the tweet into words
+            Scanner console = new Scanner(tweet);
+            while (console.hasNext()) {
+                String word = console.next();
+                // getOrDefault is a method that returns the current count 
+                // of the word if it exists in the map,
+                // Add this word to the map and set its count to its previous count plus 
+                // 1, or to 1 if it wasn't in the map.
+                wordCounts.put(word, wordCounts.getOrDefault(word, 0) + 1);
+            }
+            console.close();
+        }
+        // Find the word with the highest count 
+        String maxWord = "";
+        int maxCount = 0;
+        for (String word : wordCounts.keySet()) {
+            int numWords = wordCounts.get(word);
+            if (numWords > maxCount) {
+                maxCount = numWords;
+                maxWord = word;
+            }
+        }
+        bot.reset();
+        return maxWord;
+    }
+
+    // This method prints whether the provided word is trending or not.
+    // Parameters:
+    // - word: the word to be checked if it is trending
+    public void isWordTrending(String word) {
+        Map<String, Integer> wordCounts = new HashMap<>();
+
+        // Go through all the tweets in the TweetBot
+        for (int i = 0; i < bot.numTweets(); i++) {
+            String tweet = bot.nextTweet().toLowerCase();
+            // Use scanner to break the tweet into words
+            Scanner console = new Scanner(tweet);
+            while (console.hasNext()) {
+                String words = console.next();
+                // getOrDefault is a method that returns the current count 
+                // of the word if it exists in the map,
+                // Add this word to the map and set its count to its previous count plus 
+                // 1, or to 1 if it wasn't in the map.
+                wordCounts.put(word, wordCounts.getOrDefault(word, 0) + 1);
+            }
+            console.close();
+        }
+        // To check if the provided word is trending or not.
+        // I want to consider it trending if it appears more than a threshold
+        // number of times.
+        int threshold = 20;
+        bot.reset();
+        if (wordCounts.getOrDefault(word.toLowerCase(), 0) > threshold) {
+            System.out.println("The word '" + word + "' is trending!");
+        } else {
+            System.out.println("The word '" + word + "' is not trending!");
+        }
+    }
+}
+```
