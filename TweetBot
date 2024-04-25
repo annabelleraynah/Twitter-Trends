@@ -1,0 +1,78 @@
+``` java
+// This class, TweetBot is responsible for managing a list of tweets.
+// It is able to cycle through theses tweets, add new tweets,
+// remove specific tweets, and reset the iteration state.
+
+import java.util.*;
+import java.io.*;
+
+public class TweetBot {
+    private List<String> tweets;
+    private int currentTweetIndex;
+
+    // This constructor initializes the TweetBot with a list of tweets.
+    // Parameters:
+    // - tweets: a List of String objects representing the tweets.
+    // throws IllegalArgumentException if the size is less than 1.
+    public TweetBot(List<String> tweets) throws IllegalArgumentException {
+        // Check if the size of the given collection is less than 1
+        if (tweets.size() < 1) {
+            throw new IllegalArgumentException();
+        }
+
+        // Create a new ArrayList and copy the tweets from the given list.
+        // To make sure that the original list remains unmodified.
+        this.tweets = new ArrayList<>(tweets);
+        this.currentTweetIndex = 0;
+    }
+
+    // This method returns the number of tweets currently from the given list.
+    // Returns:
+    // - int: the size of the tweet list.
+    public int numTweets(){
+        return tweets.size();
+    }
+
+    // This method adds a new tweet to the end of the tweet list.
+    // Sets the current tweet indes to the new added tweet.
+    // Parameters:
+    // - tweet: The tweet to be added.
+    public void addTweet(String tweet) {
+        tweets.add(tweet);
+    }
+
+    // This method returns the next tweet in the list.
+    // Returns:
+    // - String: the next tweet.
+    public String nextTweet() {
+        if (currentTweetIndex >= tweets.size()) {
+            currentTweetIndex = 0; // To cycle back to the start
+        }
+            String nextTweet = tweets.get(currentTweetIndex);
+            currentTweetIndex = currentTweetIndex + 1;
+        return nextTweet;
+    }
+
+    // This method removes a tweet from the list if it is present,
+    // and preserves the order.
+    // Parameters:
+    // - tweet: a String that represents the tweet
+    public void removeTweet(String tweet) {
+        int index = tweets.indexOf(tweet);
+        if (index >= 0) {
+        // Remove the tweet from the list
+            tweets.remove(index);
+            // If the tweet is at or behind the current index, decrement after the
+            // tweet is removed.
+            if (index < currentTweetIndex) {
+                currentTweetIndex = currentTweetIndex - 1;
+            }
+        }
+    }
+
+    // This method resets the iteration state of the TweetBot.
+    public void reset() {
+        currentTweetIndex = 0;
+    }
+}   
+```
